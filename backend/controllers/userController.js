@@ -83,18 +83,18 @@ exports.forgotPassword = catchAsyncErrors(async (req,res,next) => {
 
     await user.save({validateBeforeSave: false});
 
-    const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`;    
+    const resetPasswordUrl = `${req.protocol}://${req.get("host")}/password/reset/${resetToken}`;    
     
    //MESSAGE TO BE SENT ON EMAIL
    const message = `Your Password reset token is :- \n
    \n ${resetPasswordUrl} \n
-   \n If you have not requested this email then, please ignore it`;
+   \n If you have not requested this email, please ignore it`;
    
    try {
 
         await sendEmail({
             email: user.email,
-            subject: `Ecom password recovery`,
+            subject: `Password recovery`,
             message,
         });
         res.status(200).json({
@@ -180,7 +180,7 @@ exports.updateProfile = catchAsyncErrors(async(req,res,next) => {
 
     const newUserData = {
         name: req.body.name,
-        email: req.body.email,
+        // email: req.body.email,
     };
     
     //CLOUDINARY FOR AVATAR
